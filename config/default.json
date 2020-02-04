@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://makwanas:makwanas@event0-pircl.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret":"el_myJwtSecret"
+}
