@@ -87,7 +87,7 @@ class EventModal extends Component {
 
                 {this.props.isAuthenticated ?
                     <div>
-                        <h4 className="mb-3 ml-4">Let's add or delete events now</h4>
+                        <h4 className="mb-3 ml-4 text-white">Let's add or delete events now</h4>
                         <Button
                             color="dark"
                             style={{ marginBottom: '2rem' }}
@@ -95,7 +95,7 @@ class EventModal extends Component {
                         >
                             Add Event
                     </Button>
-                    </div> : <h4 className="mb-3 ml-4">Please login to add or delete events</h4>}
+                    </div> : <h4 className="mb-3 ml-4 text-white">Please login to add or delete events</h4>}
 
                 <Modal
                     isOpen={this.state.modal}

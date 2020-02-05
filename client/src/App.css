@@ -19,3 +19,15 @@
   opacity: 0.01;
   transition: opacity 1000ms ease-in;
 }
+
+.containerStyle {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../src/images/backgorund.jpeg");
+  background-size: cover;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+}

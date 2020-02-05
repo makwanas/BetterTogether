@@ -17,17 +17,21 @@ class App extends Component {
     store.dispatch(loadUser());
   }
 
+
   render() {
     return (
-      <Provider store={store}>
-        <div className="App">
-          <AppNavbar />
-          <Container>
-            <EventModal />
-            <EventList />
-          </Container>
-        </div>
-      </Provider>
+      <div className="containerStyle">
+        <Provider store={store} >
+          <div className="App">
+
+            <AppNavbar />
+            <Container>
+              <EventModal />
+              <EventList />
+            </Container>
+          </div>
+        </Provider>
+      </div>
     );
   }
 }
