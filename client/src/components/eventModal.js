@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 
 import { connect } from 'react-redux';
-import { addEvent } from '../actions/eventActions';
+import { addEvent, getEvents } from '../actions/eventActions';
 import PropTypes from 'prop-types';
 import { clearErrors } from '../actions/errorActions';
 
@@ -34,14 +34,56 @@ class EventModal extends Component {
 
     static propTypes = {
         isAuthenticated: PropTypes.bool,
-        clearErrors: PropTypes.func.isRequired
+        clearErrors: PropTypes.func.isRequired,
+        error: PropTypes.object.isRequired,
+        addEvent: PropTypes.func.isRequired,
+        isAdded: PropTypes.bool,
+        getEvents: PropTypes.func.isRequired
+    }
+
+    componentDidUpdate(prevProps) {
+        const { error, isAdded } = this.props;
+        if (error !== prevProps.error) {
+            //Check for add event details error
+            if (error.id === 'ADD_EVENT_FAILED') {
+                this.setState({ msg: error.msg.msg })
+            } else {
+                this.setState({ msg: null })
+            }
+        }
+
+        //If success, close modal
+
+        if (this.state.modal) {
+            if (isAdded) {
+                this.toggle();
+            }
+
+        }
     }
 
     toggle = () => {
+
+        //Clear errors
+        this.props.clearErrors();
+        this.props.getEvents();
+
+        //const { isAdded } = this.props;
+
+        console.log("Modal state right now:")
+        console.log(this.state.modal);
+
         this.setState({
-            modal: !this.state.modal
-        });
+            modal: !this.state.modal,
+            //isAdded: false
+        })
+
+        //console.log("Added value now");
+        //console.log(isAdded);
+
+
     }
+
 
     onChange = (e) => {
         this.setState({
@@ -77,8 +119,7 @@ class EventModal extends Component {
         //Add item via addItem action
         this.props.addEvent(newEvent);
 
-        //Close Modal
-        this.toggle();
+        //this.toggle();
     }
 
     render() {
@@ -103,6 +144,7 @@ class EventModal extends Component {
                 >
                     <ModalHeader toggle={this.toggle}>Event Details</ModalHeader>
                     <ModalBody>
+                        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
                                 <Label for="event">Event's Name</Label>
@@ -186,7 +228,9 @@ class EventModal extends Component {
 
 const mapStateToProps = state => ({
     event: state.event,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    error: state.error,
+    isAdded: state.event.isAdded
 });
 
-export default connect(mapStateToProps, { addEvent })(EventModal)
+export default connect(mapStateToProps, { addEvent, clearErrors, getEvents })(EventModal)

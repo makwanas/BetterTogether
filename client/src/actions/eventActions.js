@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { GET_EVENTS, ADD_EVENT, DELETE_EVENT, EVENTS_LOADING } from './types';
+import { GET_EVENTS, ADD_EVENT, DELETE_EVENT, EVENTS_LOADING, ADD_EVENT_FAILED } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
+
 
 
 export const getEvents = () => dispatch => {
@@ -27,8 +28,12 @@ export const addEvent = (event) => (dispatch, getState) => {
                 type: ADD_EVENT,
                 payload: res.data
             }))
-        .catch(err =>
-            dispatch(returnErrors(err.response.data, err.response.status))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'ADD_EVENT_FAILED'));
+            dispatch({
+                type: ADD_EVENT_FAILED
+            });
+        }
         );
 };
 

@@ -9,9 +9,9 @@ const Event = require('../../models/event');
 //@desc GET All Events
 //@access Public
 
-router.get('/',(req,res) => {
+router.get('/', (req, res) => {
     Event.find()
-        .sort({date: -1})
+        .sort({ date: -1 })
         .then(events => res.json(events))
 });
 
@@ -19,17 +19,24 @@ router.get('/',(req,res) => {
 //@desc Create a Post
 //@access Private
 
-router.post('/',auth,(req,res) => {  
+router.post('/', auth, (req, res) => {
+
+    const { name, price, place, host_name, host_contactno, host_email, bio, people } = req.body;
     const newEvent = new Event({
-        name:req.body.name,
-        price:req.body.price,
-        place:req.body.place,
-        host_name:req.body.host_name,
-        host_contactno:req.body.host_contactno,
-        host_email:req.body.host_email,
-        bio:req.body.bio,
-        people:req.body.people
+        name,
+        price,
+        place,
+        host_name,
+        host_contactno,
+        host_email,
+        bio,
+        people
     });
+
+    //SIMPLE VALIDATION
+    if (!name || !price || !place || !host_name || !host_contactno || !host_email || !bio || !people) {
+        return res.status(400).json({ msg: 'Please enter all the fields mentioned down below:' });
+    }
 
     newEvent.save().then(event => res.json(event));
 });
@@ -38,11 +45,11 @@ router.post('/',auth,(req,res) => {
 //@desc Delete a event
 //@access Private
 
-router.delete('/:id',auth,(req,res) => {
+router.delete('/:id', auth, (req, res) => {
     Event.findById(req.params.id)
-        .then(event => event.remove().then(() => res.json({success: true})))
-        .catch(err => res.status(404).json({ success:false}));
-    });
+        .then(event => event.remove().then(() => res.json({ success: true })))
+        .catch(err => res.status(404).json({ success: false }));
+});
 
 
 module.exports = router;

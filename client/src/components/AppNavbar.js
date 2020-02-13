@@ -43,6 +43,13 @@ class AppNavbar extends Component {
                     </span>
                 </NavItem>
                 <NavItem>
+                    <span className="navbar-text mr-3">
+                        <strong>
+                            My events
+                        </strong>
+                    </span>
+                </NavItem>
+                <NavItem>
                     <Logout />
                 </NavItem>
             </Fragment>
